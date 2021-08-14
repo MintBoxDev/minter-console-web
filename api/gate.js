@@ -13,7 +13,7 @@ import {ESTIMATE_SWAP_TYPE} from 'minter-js-sdk/src/variables.js';
 import {ReplaceCoinSymbol, ReplaceCoinSymbolByPath, GetCoinId} from 'minter-js-sdk/src/api/replace-coin.js';
 import GetCoinInfo from 'minter-js-sdk/src/api/get-coin-info.js';
 import GetCommissionPrice from 'minter-js-sdk/src/api/get-commission-price.js';
-import {GATE_API_URL, CHAIN_ID} from '~/assets/variables.js';
+import {GATE_API_URL, GATE_API_URL2, CHAIN_ID} from '~/assets/variables.js';
 import {getSwapRoute} from '@/api/explorer.js';
 
 const minterApi = new MinterApi({
@@ -23,8 +23,16 @@ const minterApi = new MinterApi({
     adapter: cacheAdapterEnhancer(axios.defaults.adapter, { enabledByDefault: false}),
 });
 
-export const postTx = PostTx(minterApi);
-export const postSignedTx = PostSignedTx(minterApi);
+const minterApi2 = new MinterApi({
+    apiType: 'gate',
+    baseURL: GATE_API_URL2,
+    chainId: CHAIN_ID,
+    adapter: cacheAdapterEnhancer(axios.defaults.adapter, { enabledByDefault: false}),
+});
+
+
+export const postTx = PostTx(minterApi2);
+export const postSignedTx = PostSignedTx(minterApi2);
 
 export const getNonce = GetNonce(minterApi);
 export const ensureNonce = EnsureNonce(minterApi);
